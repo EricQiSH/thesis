@@ -1,0 +1,12 @@
+#coding=utf-8
+import json
+import re
+
+#将文本中的标点去除，以便使用word2vec
+l=[]
+with open('/Users/EricQi/Downloads/smallreview.json','r') as g:
+    for line in g.readlines():
+        l.append(re.sub('[\s+\.\!\)\\\;\-\&#/_,$%^*(+\"\'\[\]\?]+',' ',line))
+
+with open('/Users/EricQi/Downloads/samllreviewAC.json','w') as h:
+    json.dump(l,h)
