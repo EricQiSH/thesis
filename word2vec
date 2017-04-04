@@ -1,0 +1,15 @@
+#coding=utf-8
+import json
+import re
+
+with open("/Users/EricQi/Downloads/reviews_Office_Products.json.gz2",'r') as f:
+    lines = f.readlines()
+
+l=[]
+for line in lines:
+    dic=eval(line)
+    l.append(dic['reviewText'])
+
+#将提取的评论写为文本形式以便于使用word2vec
+with open('/Users/EricQi/Downloads/reviews_Products.json','w') as h:
+    json.dump(l,h)
