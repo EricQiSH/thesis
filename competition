@@ -1,0 +1,37 @@
+#coding=utf-8
+import json
+import re
+
+#从word2vec模型中输入entity,attributes和频次
+entity=['is','no']
+attribute=['awesome','This','us']
+numE=len(entity)
+numA=len(attribute)
+count=[([0] * numA) for i in range(numE)] #防止浅拷贝
+print count
+
+#打开原始文件，提取评论，存入列表l
+l=[]
+with open("/Users/EricQi/Downloads/reviews_Office_Products.json.gz2",'r') as f:
+    for lines in f.readlines():
+        dic=eval(lines)
+        l.append(dic['reviewText'])
+
+#对每一个评论进行正则化处理以去除标点
+print len(l)
+for i in range(len(l)):
+    l[i]=re.sub('[\s+\.\!\)\\\;\-\&#/_,$%^*(+\"\'\[\]\?]+',' ',l[i])
+
+#开始计算每个词在评论中出现的次数
+    for j in range(numE):
+        for k in range(numA):
+            if re.search(entity[j],l[i],re.I) and re.search(attribute[k],l[i],re.I):
+                count[j][k]=count[j][k]+1
+
+#显示每一个属性的词频
+for att in range(numA):
+    print ' '+attribute[att],
+for ent in range(numE):
+    print '\n'+entity[ent],
+    for attr in range(numA):
+        print str(count[ent][attr]),
